@@ -7,7 +7,7 @@ function Navigation(p) {
       {/* Logo and Links */}
       <div className="flex items-center space-x-12">
         <a href="/" className="text-3xl font-bold tracking-wide">
-          Horizone
+        travel-expert
         </a>
         <div className="hidden md:flex space-x-8 text-lg">
           <a href={`/`} className="hover:text-gray-300 transition-colors">
@@ -49,4 +49,4 @@ function Navigation(p) {
   );
 }
 
-export default Navigation;
+export default Navigation;  

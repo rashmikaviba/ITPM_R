@@ -6,25 +6,27 @@ import { toast } from "react-toastify";
 const TripCard = ({ trip }) => {
   const { deleteTrip, updateTrip } = useTripStore(); // Include updateTrip from the store
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
+  const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false); // State for confirmation modal
   const [formData, setFormData] = useState({
     name: trip.name,
     destination: trip.destination,
     Date: trip.Date,
   }); // State for form data
 
-  const handleDeleteTrip = async (id) => {
-    if (!id) {
+  const handleDeleteTrip = async () => {
+    if (!trip._id) {
       toast.error("Trip ID is missing.");
       return;
     }
 
-    const { success, message } = await deleteTrip(id);
+    const { success, message } = await deleteTrip(trip._id);
 
     if (success) {
       toast.success(message);
     } else {
       toast.error(message);
     }
+    setIsConfirmDeleteOpen(false); // Close the confirmation modal after deletion
   };
 
   const handleEditTrip = async (e) => {
@@ -50,7 +52,7 @@ const TripCard = ({ trip }) => {
       {/* Image Section */}
       <img
         className="w-full h-56 object-cover"
-        src="https://images.unsplash.com/photo-1743010768826-cc10a67e3b3a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" // Replace with actual trip image URL if available
+        src="https://images.unsplash.com/photo-1502003148287-a82ef80a6abc?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
         alt="Trip"
       />
 
@@ -64,7 +66,7 @@ const TripCard = ({ trip }) => {
 
         <div className="flex justify-between items-center mt-4 space-x-2">
           {/* Delete Button */}
-          <Button onClick={() => handleDeleteTrip(trip._id)}>Delete</Button>
+          <Button onClick={() => setIsConfirmDeleteOpen(true)}>Delete</Button>
 
           {/* Edit Button */}
           <Button onClick={() => setIsModalOpen(true)}>Edit Trip</Button>
@@ -154,6 +156,31 @@ const TripCard = ({ trip }) => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Confirmation Modal for Delete */}
+      {isConfirmDeleteOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-lg w-full max-w-xs">
+            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-6">
+              Are you sure you want to delete this trip?
+            </h2>
+            <div className="flex justify-between">
+              <Button
+                onClick={handleDeleteTrip}
+                className="w-1/3 bg-red-500 text-white rounded-lg"
+              >
+                Yes
+              </Button>
+              <Button
+                onClick={() => setIsConfirmDeleteOpen(false)}
+                className="w-1/3 bg-gray-300 text-gray-800 rounded-lg"
+              >
+                No
+              </Button>
+            </div>
           </div>
         </div>
       )}
