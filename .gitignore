@@ -1,1 +1,7 @@
+# Ignore node_modules and sensitive files
+frontend/node_modules
+backend/node_modules
 node_modules
+.env
+.DS_Store
+*.log
