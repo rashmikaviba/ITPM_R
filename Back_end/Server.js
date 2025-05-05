@@ -22,7 +22,7 @@ app.use(
     saveUninitialized: false,
     store: MongoStore.create({
       mongoUrl:
-        "mongodb+srv://admin:WobJiFeRIDHibM9g@cluster0.64xm7.mongodb.net/",
+        "mongodb+srv://isuruamac:BeE4463MktBZvqKR@cluster0.oydefln.mongodb.net/Trip-Management?retryWrites=true&w=majority",
       ttl: 3 * 30 * 24 * 60 * 60, // ✅ 3 months (in seconds)
       autoRemove: "native", // Automatically remove expired sessions
     }),
