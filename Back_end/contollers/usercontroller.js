@@ -1,6 +1,6 @@
-const User = require("../models/usermodels.js");
-const bcrypt = require("bcryptjs");
-const session = require("express-session");
+import User from "../models/usermodel.js";
+import bcrypt from "bcryptjs";
+import session from "express-session";
 
 // Initialize session middleware (should be added in server.js)
 const sessionMiddleware = session({
@@ -57,35 +57,65 @@ const addUser = async (req, res) => {
   } = req.body;
 
   try {
-    if (!Password || typeof Password !== "string") {
-      return res
-        .status(400)
-        .json({ message: "Password must be a valid string" });
+    // Validate required fields
+    if (!firstname || !lastname || !email || !Username || !Password) {
+      return res.status(400).json({ message: "Missing required fields" });
     }
 
-    // Hash the password before saving
+    // Check if email is valid
+    const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ message: "Invalid email format" });
+    }
+
+    // Check if email already exists in the database
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already in use" });
+    }
+
+    // Hash the password before saving it
     const hashedPassword = await bcrypt.hash(Password, 10);
 
+    // Create a new user with the provided data
     const user = new User({
       firstname,
       lastname,
       email,
       Username,
-      Password: hashedPassword, // Store hashed password
+      Password: hashedPassword, // Store the hashed password
       Contract,
       Nationality,
       Gender,
       address,
     });
 
+    // Save the new user to the database
     await user.save();
-    return res.status(201).json({ message: "User added successfully!", user });
+
+    // Respond with success message and the newly created user data
+    return res.status(201).json({
+      message: "User added successfully!",
+      user: {
+        _id: user._id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+        Username: user.Username,
+        Contract: user.Contract,
+        Nationality: user.Nationality,
+        Gender: user.Gender,
+        address: user.address,
+      },
+    });
   } catch (err) {
+    console.error("Error adding user:", err);
     return res
       .status(500)
       .json({ message: "Failed to add user", error: err.message });
   }
 };
+
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -193,12 +223,14 @@ const deleteUser = async (req, res) => {
   }
 };
 
-// Export functions
-exports.getAllUsers = getAllUsers;
-exports.getUserByEmail = getUserByEmail;
-exports.addUser = addUser;
-exports.loginUser = loginUser;
-exports.logoutUser = logoutUser;
-exports.updateUser = updateUser;
-exports.deleteUser = deleteUser;
-exports.sessionMiddleware = sessionMiddleware;
+// Export all functions
+export {
+  getAllUsers,
+  getUserByEmail,
+  addUser,
+  loginUser,
+  logoutUser,
+  updateUser,
+  deleteUser,
+  sessionMiddleware,
+};
