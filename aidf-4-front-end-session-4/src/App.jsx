@@ -23,9 +23,33 @@ const App = () => {
         <Route path="/ViewTrip" element={<ViewTrip />} />
         <Route path="//sign-in" element={<Login />} />
         <Route path="/sign-up" element={<Register />} />
-        <Route path="/Profile" element={<Profile />} />
-        <Route path="/UserProfileForm" element={<UserProfileForm />} />
-        <Route path="/SecuritySettings" element={<SecuritySettings />} />
+        <Route path="/Profile" element={<div className="flex">
+                <Sidebar />
+                <div className="flex-1 flex flex-col">
+                  <Navbar />
+                  <div className="p-6">
+                    <Profile />
+                  </div>
+                </div>
+              </div>} />
+        <Route path="/UserProfileForm" element={<div className="flex">
+                <Sidebar />
+                <div className="flex-1 flex flex-col">
+                  <Navbar />
+                  <div className="p-6">
+                    <UserProfileForm />
+                  </div>
+                </div>
+              </div>} />
+        <Route path="/SecuritySettings" element={<div className="flex">
+                <SettingsSidebar />
+                <div className="flex-1 flex flex-col">
+                  <Navbar />
+                  <div className="p-6">
+                    <SecuritySettings />
+                  </div>
+                </div>
+              </div>} />
         {/* Add more routes if needed */}
       </Routes>
     </>

@@ -15,7 +15,7 @@ const Dashboard = () => {
       try {
         // Get user session
         const sessionResponse = await axios.get(
-          "http://localhost:5000/session",
+          "http://localhost:5001/session",
           { withCredentials: true }
         );
 
@@ -29,7 +29,7 @@ const Dashboard = () => {
 
         // Fetch reservations using the user's email
         const response = await axios.get(
-          `http://localhost:5000/dashboard/reservations/${userEmail}`,
+          `http://localhost:5001/dashboard/reservations/${userEmail}`,
           { withCredentials: true }
         );
 
