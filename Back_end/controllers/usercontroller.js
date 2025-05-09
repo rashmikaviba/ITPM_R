@@ -1,6 +1,5 @@
 import bcrypt from 'bcrypt'; 
 import User from '../models/User.js'; // Import the User model
-import session from 'express-session'; // Import express-session
 
 const UserController = {
 
