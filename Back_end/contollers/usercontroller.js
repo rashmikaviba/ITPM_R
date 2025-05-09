@@ -1,4 +1,4 @@
-const User = require("../models/usermodels.js");
+const User = require("../Model/usermodel");
 const bcrypt = require("bcryptjs");
 const session = require("express-session");
 

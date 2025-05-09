@@ -1,9 +1,14 @@
 import express from "express";
-import { getUser, createUser } from "../controllers/usercontroller.js";
-
 const router = express.Router();
+import UserController from "../Controllers/usercontroller.js"; // Ensure correct path and file extension
 
-router.get("/", getUser);
-router.post("/", createUser);
+// User routes
+router.get("/:email", UserController.getUserByEmail);
+router.get("/", UserController.getAllUserss);
+router.post("/", UserController.addUser);
+router.post("/login", UserController.loginUser); // Login route
+router.post("/logout", UserController.logoutUser); // Logout route
+router.put("/:email", UserController.updateUser);
+router.delete("/:email", UserController.deleteUser);
 
-export { router };
+export { router }; // Ensure router is exported as a named export

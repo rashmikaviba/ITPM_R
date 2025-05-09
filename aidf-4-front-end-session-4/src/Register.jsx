@@ -37,14 +37,15 @@ export default function Register() {
     }
 
     try {
-      const response = await fetch("http://localhost:5001/Users", {
+      const response = await fetch("http://localhost:5001/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           firstname: formData.firstname,
           lastname: formData.lastname,
+          Username: formData.username, // Capitalized key matches backend
           email: formData.email,
-          Password: formData.password, // Match backend key (case-sensitive)
+          Password: formData.password, // Capitalized key matches backend
         }),
       });
 
@@ -64,7 +65,7 @@ export default function Register() {
         confirmPassword: "",
       });
 
-      navigate("/"); // Redirect to login page after successful registration
+      navigate("/"); // Redirect to login page
     } catch (error) {
       setMessage(error.message);
     }
@@ -88,7 +89,9 @@ export default function Register() {
           <p className="text-center text-black">Unlock all Features!</p>
 
           {message && (
-            <p className="text-center text-red-500 font-semibold">{message}</p>
+            <p className={`text-center font-semibold ${message.includes("successfully") ? "text-green-600" : "text-red-500"}`}>
+              {message}
+            </p>
           )}
 
           <input

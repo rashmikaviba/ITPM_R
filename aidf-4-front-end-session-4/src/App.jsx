@@ -6,6 +6,9 @@ import { Routes, Route } from 'react-router-dom';
 import ViewTrip from "./components/ui/viewTrip";
 import Login from "./Login";
 import Register from "./Register";
+import Profile from "./Profile";
+import UserProfileForm from "./UserProfileForm";
+import SecuritySettings from "./SecuritySettings";
 
 const App = () => {
 
@@ -18,8 +21,11 @@ const App = () => {
         <Route path="/" element={<div><Hero /><HotelListings /></div>} />
         <Route path="/createpage" element={<Createpage />} />
         <Route path="/ViewTrip" element={<ViewTrip />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="//sign-in" element={<Login />} />
+        <Route path="/sign-up" element={<Register />} />
+        <Route path="/Profile" element={<Profile />} />
+        <Route path="/UserProfileForm" element={<UserProfileForm />} />
+        <Route path="/SecuritySettings" element={<SecuritySettings />} />
         {/* Add more routes if needed */}
       </Routes>
     </>

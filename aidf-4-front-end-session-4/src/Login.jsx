@@ -7,16 +7,16 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState(""); // State for success message
-  const navigate = useNavigate(); // Replaced useHistory with useNavigate
+  const [successMessage, setSuccessMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5001/Users/login",
-        { email, password }, // Ensure `password` is lowercase
-        { withCredentials: true } // ✅ Important for session management
+        "http://localhost:5001/users/login", // ✅ fixed lowercase `users`
+        { email, password },
+        { withCredentials: true }
       );
 
       if (response.status === 200) {
@@ -24,7 +24,7 @@ const Login = () => {
         setErrorMessage("");
 
         setTimeout(() => {
-          navigate("/Profile"); // ✅ Redirect after showing success message
+          navigate("/Profile");
         }, 2000);
       }
     } catch (error) {
@@ -36,12 +36,11 @@ const Login = () => {
   };
 
   const handleGoogleLogin = () => {
-    // Implement Google login functionality here, for example using Firebase or OAuth.
     console.log("Google login clicked");
   };
 
   const handleCreateAccount = () => {
-    navigate("/Register"); // Navigate to the signup page
+    navigate("/Register");
   };
 
   return (
@@ -57,7 +56,6 @@ const Login = () => {
           Welcome back! Select method to log in:
         </p>
 
-        {/* Google Login */}
         <button
           className="flex items-center justify-center w-full mt-4 p-2 border border-black rounded-lg text-black hover:bg-black hover:text-white transition"
           onClick={handleGoogleLogin}
@@ -69,7 +67,6 @@ const Login = () => {
           or continue with email
         </div>
 
-        {/* Email and Password Form */}
         <form onSubmit={handleSubmit}>
           <input
             type="email"
@@ -86,7 +83,6 @@ const Login = () => {
             className="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
 
-          {/* Login Button */}
           <button
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-lg mt-4"
@@ -95,19 +91,16 @@ const Login = () => {
           </button>
         </form>
 
-        {/* Error Message */}
         {errorMessage && (
           <div className="text-red-500 text-center mt-2">{errorMessage}</div>
         )}
 
-        {/* Success Message */}
         {successMessage && (
           <div className="text-green-500 text-center mt-2">
             {successMessage}
           </div>
         )}
 
-        {/* Remember me and Forgot Password */}
         <div className="flex justify-between items-center mt-3 text-black">
           <label className="flex items-center">
             <input type="checkbox" className="mr-2" />
@@ -122,13 +115,12 @@ const Login = () => {
           </button>
         </div>
 
-        {/* Signup */}
         <p className="text-center text-black mt-4">
           Don’t have an account?{" "}
           <button
             type="button"
             className="text-blue-600 hover:underline bg-transparent border-none p-0 cursor-pointer"
-            onClick={handleCreateAccount} // Navigate to signup page
+            onClick={handleCreateAccount}
           >
             Create an account
           </button>

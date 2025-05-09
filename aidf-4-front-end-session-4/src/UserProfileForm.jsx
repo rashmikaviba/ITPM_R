@@ -128,7 +128,7 @@ const UserProfileForm = () => {
       };
 
       const response = await axios.put(
-        `http://localhost:5000/users/${userEmail}`,
+        `http://localhost:5001/users/${userEmail}`,
         dataToUpdate,
         { withCredentials: true }
       );
