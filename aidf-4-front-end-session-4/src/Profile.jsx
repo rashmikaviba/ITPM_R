@@ -11,34 +11,36 @@ const Profile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        // Fetch session details
-        const sessionResponse = await axios.get(
-          "http://localhost:5001/session",
-          { withCredentials: true }
-        );
+        // Get session data from backend
+        const sessionResponse = await axios.get("http://localhost:5001/session", {
+          withCredentials: true,
+        });
 
-        if (!sessionResponse.data.email) {
-          setError("No user session found. Please log in.");
-          setLoading(false);
+        if (!sessionResponse.data || !sessionResponse.data.email) {
+          console.error("No session found. Redirecting to login.");
+          navigate("/login");
           return;
         }
 
         const userEmail = sessionResponse.data.email;
 
-        // Fetch user data using email
+        // Fetch user data using the email from session
         const userResponse = await axios.get(
           `http://localhost:5001/Users/${userEmail}`
         );
+
         setUser(userResponse.data.user);
       } catch (err) {
+        console.error("Error fetching session or user data:", err);
         setError("Failed to fetch user data.");
+        navigate("/login");
       } finally {
         setLoading(false);
       }
     };
 
     fetchUserData();
-  }, []);
+  }, [navigate]);
 
   if (loading) {
     return <div className="text-center p-6">Loading...</div>;
@@ -48,7 +50,11 @@ const Profile = () => {
     return <div className="text-center p-6 text-red-500">{error}</div>;
   }
 
-  const handleeditbtn = async () => {
+  if (!user) {
+    return <div className="text-center p-6 text-red-500">User data not available.</div>;
+  }
+
+  const handleeditbtn = () => {
     navigate("/UserProfileForm");
   };
 
@@ -73,62 +79,65 @@ const Profile = () => {
                 className="w-24 h-24 rounded-full object-cover"
               />
             </div>
-            <h3 className="text-lg font-semibold mt-2">Vinuja Hansindu</h3>
+            <h3 className="text-lg font-semibold mt-2">
+              {user.firstname || "N/A"} {user.lastname || "N/A"}
+            </h3>
           </div>
 
           <div className="grid grid-cols-2 gap-4 mt-4">
             <div>
               <label className="text-gray-600">Name</label>
               <div className="border p-2 rounded">
-                {user.firstname} {user.lastname}
+                {user.firstname || "N/A"} {user.lastname || "N/A"}
               </div>
             </div>
             <div>
               <label className="text-gray-600">Username</label>
-              <div className="border p-2 rounded">{user.Username}</div>
+              <div className="border p-2 rounded">{user.Username || "N/A"}</div>
             </div>
             <div>
               <label className="text-gray-600">Email</label>
-              <div className="border p-2 rounded">{user.email}</div>
+              <div className="border p-2 rounded">{user.email || "N/A"}</div>
             </div>
             <div>
               <label className="text-gray-600">Contact</label>
-              <div className="border p-2 rounded">{user.Contract}</div>
+              <div className="border p-2 rounded">{user.Contract || "N/A"}</div>
             </div>
             <div>
               <label className="text-gray-600">Nationality</label>
-              <div className="border p-2 rounded">{user.Nationality}</div>
+              <div className="border p-2 rounded">{user.Nationality || "N/A"}</div>
             </div>
             <div>
               <label className="text-gray-600">Gender</label>
-              <div className="border p-2 rounded">{user.Gender}</div>
+              <div className="border p-2 rounded">{user.Gender || "N/A"}</div>
             </div>
             <div>
               <label className="text-gray-600">Address</label>
-              <div className="border p-2 rounded">{user.address}</div>
+              <div className="border p-2 rounded">{user.address || "N/A"}</div>
             </div>
           </div>
+
           <h3 className="mt-6 text-lg font-semibold">Passport details:</h3>
           <div className="grid grid-cols-2 gap-4 mt-2">
             <div>
               <label className="text-gray-600">First Name</label>
-              <div className="border p-2 rounded">{user.firstname}</div>
+              <div className="border p-2 rounded">{user.firstname || "N/A"}</div>
             </div>
             <div>
               <label className="text-gray-600">Last Name</label>
-              <div className="border p-2 rounded">{user.lastname}</div>
+              <div className="border p-2 rounded">{user.lastname || "N/A"}</div>
             </div>
             <div>
               <label className="text-gray-600">Issuing Country</label>
-              <div className="border p-2 rounded">{user.country}</div>
+              <div className="border p-2 rounded">{user.country || "N/A"}</div>
             </div>
             <div>
               <label className="text-gray-600">Passport Number</label>
-              <div className="border p-2 rounded">{user.passportnum}</div>
+              <div className="border p-2 rounded">{user.passportnum || "N/A"}</div>
             </div>
             <div>
               <label className="text-gray-600">Expiration Date</label>
-              <div className="border p-2 rounded">{user.expirationdate}</div>
+              <div className="border p-2 rounded">{user.expirationdate || "N/A"}</div>
             </div>
           </div>
         </div>
