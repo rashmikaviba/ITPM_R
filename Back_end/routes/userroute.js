@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import UserController from "../Controllers/usercontroller.js"; // Ensure correct path and file extension
+import UserController from "../controllers/usercontroller.js"; // Corrected path to the controllers file
 
 // User routes
 router.get("/:email", UserController.getUserByEmail);

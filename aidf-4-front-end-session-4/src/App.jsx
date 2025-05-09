@@ -9,6 +9,9 @@ import Register from "./Register";
 import Profile from "./Profile";
 import UserProfileForm from "./UserProfileForm";
 import SecuritySettings from "./SecuritySettings";
+import Navbar from "./Navbar";
+import Sidebar from "./Sidebar";
+import SettingsSidebar from "./SettingsSidebar";
 
 const App = () => {
 
